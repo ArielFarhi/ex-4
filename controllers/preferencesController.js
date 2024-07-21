@@ -43,7 +43,7 @@ const preferenceController = {
             }
 
             const [result] = await db.query(
-                `INSERT INTO ${TABLE_NAME}_preferences (user_id, startDate, endDate, destination, vacationType) VALUES (?, ?, ?, ?, ?)`,
+                `INSERT INTO tbl_19_preferences (user_id, startDate, endDate, destination, vacationType) VALUES (?, ?, ?, ?, ?)`,
                 [userId, startDate, endDate, destination, vacationType]
             );
 
