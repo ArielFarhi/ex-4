@@ -9,12 +9,18 @@ const userController = {
         }
 
         const checkUserQuery = 'SELECT * FROM tbl_19_users WHERE userName = ?';
+        const countUsersQuery = 'SELECT COUNT(*) AS userCount FROM tbl_19_users';
         const insertUserQuery = 'INSERT INTO tbl_19_users (userName, userPassword, userAccessCode) VALUES (?, ?, ?)';
 
         try {
             const db = await dbConnection.createConnection();
-            const [results] = await db.query(checkUserQuery, [userName]);
+            const [countResult] = await db.query(countUsersQuery);
+            const userCount = countResult[0].userCount;
+            if (userCount >= 10) {
+                return res.status(400).send('Maximum number of users reached');
+            }
 
+            const [results] = await db.query(checkUserQuery, [userName]);
             if (results.length > 0) {
                 return res.status(400).send('UserName already exists');
             }
